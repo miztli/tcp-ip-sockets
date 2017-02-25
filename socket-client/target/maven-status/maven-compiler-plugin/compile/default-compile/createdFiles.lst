@@ -1,0 +1,5 @@
+com/java/examples/ReaderThread.class
+com/java/examples/utils/SocketUtils.class
+com/java/examples/SocketThread.class
+com/java/examples/WriterThread.class
+com/java/examples/SocketClient.class
