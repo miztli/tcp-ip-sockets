@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -41,28 +42,44 @@ public class SocketServer {
             System.out.println("Port: " + args[0]);
 
             System.out.println("Waiting for a connection to be made");
-            try (Socket socket = listener.accept()) {
+//            try (Socket socket = listener.accept()) {
 
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            Socket socket = listener.accept();
+                Thread writerThread = new Thread(
+                                            new WriterThread(
+                                                    socket.getOutputStream(),
+                                                    "SERVER",
+                                                    Arrays.asList("This", "is", "a", "message", "from", "the", "server", "socket")
+                                            ));
 
-                out.println("Socket: Hello world!");
-                out.flush();
+                Thread readerThread = new Thread(
+                                            new ReaderThread(
+                                                    socket.getInputStream(),
+                                                    "SERVER"
+                                            ));
 
-                for (int i = 0; i < 20; i++) {
-                    System.out.println("socket detenido por 3 segundos");
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        System.out.println("Exception: " + ex.getMessage());
-                    }
-
-                    out.println("Socket: mensaje "+i);
-                    out.flush();
-                }
-
-                out.println("end");
-                out.flush();
-            }
+                writerThread.start();
+                readerThread.start();
+//                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+//
+//                out.println("Socket: Hello world!");
+//                out.flush();
+//
+//                for (int i = 0; i < 20; i++) {
+//                    System.out.println("socket detenido por 3 segundos");
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException ex) {
+//                        System.out.println("Exception: " + ex.getMessage());
+//                    }
+//
+//                    out.println("Socket: mensaje "+i);
+//                    out.flush();
+//                }
+//
+//                out.println("end");
+//                out.flush();
+//            }
         }
     }
 }

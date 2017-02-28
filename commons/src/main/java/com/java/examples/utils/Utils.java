@@ -9,7 +9,7 @@ import java.net.Socket;
 /**
  * Created by miztli on 24/02/17.
  */
-public class SocketUtils {
+public class Utils {
 
     public static void close(Closeable closable){
         try {
@@ -18,4 +18,5 @@ public class SocketUtils {
             System.out.println("Could not close object: " + e.getMessage());
         }
     }
+
 }

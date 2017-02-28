@@ -11,6 +11,7 @@ package com.java.examples;
  */
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 
 public class SocketClient {
 
@@ -35,8 +36,18 @@ public class SocketClient {
 
         Socket socketClient = new Socket(host, port);
 
-        Thread readerThread = new Thread(new ReaderThread(socketClient));
-        Thread writerThread = new Thread(new WriterThread(socketClient));
+        Thread readerThread = new Thread(
+                                new ReaderThread(
+                                        socketClient.getInputStream(),
+                                        "CLIENT"
+                                ));
+
+        Thread writerThread = new Thread(
+                                new WriterThread(
+                                        socketClient.getOutputStream(),
+                                        "CLIENT",
+                                        Arrays.asList("Hola", "mundo", "esto", "es", "una", "prueba", "desde", "el" , "cliente")
+                                ));
 
         readerThread.start();
         writerThread.start();
@@ -55,13 +66,13 @@ public class SocketClient {
 //                System.out.println("Server: " + fromServer);
 //                if (fromServer.equals("Bye."))
 //                    break;
-//
-////                fromUser = stdIn.readLine();
-////                if (fromUser != null) {
-////                    System.out.println("Client: " + fromUser);
-////                    out.println(fromUser);
-////                }
-//            }
+
+//                fromUser = stdIn.readLine();
+//                if (fromUser != null) {
+//                    System.out.println("Client: " + fromUser);
+//                    out.println(fromUser);
+//                }
+            }
 //        } catch (UnknownHostException e) {
 //            System.err.println("Don't know about host " + host);
 //            System.exit(1);
@@ -69,5 +80,5 @@ public class SocketClient {
 //            System.err.println("Couldn't get I/O for the connection to " + host);
 //            System.exit(1);
 //        }
-    }
+//    }
 }

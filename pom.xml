@@ -54,6 +54,7 @@
   <modules>
     <module>socket-server</module>
     <module>socket-client</module>
+    <module>commons</module>
   </modules>
 
   <properties>

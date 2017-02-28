@@ -2,10 +2,10 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>socket-server</artifactId>
+  <groupId>com.java.examples</groupId>
+  <artifactId>commons</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>socket-server</name>
-  <packaging>jar</packaging>
+  <name>commons</name>
   <url>http://maven.apache.org</url>
 
   <parent>
@@ -16,30 +16,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.java.examples</groupId>
-      <artifactId>commons</artifactId>
-      <version>${commons.version}</version>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-
   <properties>
-    <!-- non dependencies -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- commons module-->
-    <commons.version>1.0-SNAPSHOT</commons.version>
   </properties>
+
 </project>

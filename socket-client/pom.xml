@@ -16,6 +16,13 @@
 
 
     <dependencies>
+        <!--commons module-->
+        <dependency>
+            <groupId>com.java.examples</groupId>
+            <artifactId>commons</artifactId>
+            <version>${commons.version}</version>
+        </dependency>
+        <!--test-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -35,5 +42,7 @@
         <!-- non dependencies -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!-- commons module-->
+        <commons.version>1.0-SNAPSHOT</commons.version>
     </properties>
 </project>
