@@ -1,5 +1,5 @@
 #compiled sources
-target/
+*target*
 socket-server/target
 socket-client/target
 
