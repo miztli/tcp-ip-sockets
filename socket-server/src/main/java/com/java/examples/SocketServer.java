@@ -45,21 +45,24 @@ public class SocketServer {
 //            try (Socket socket = listener.accept()) {
 
             Socket socket = listener.accept();
-                Thread writerThread = new Thread(
-                                            new WriterThread(
-                                                    socket.getOutputStream(),
-                                                    "SERVER",
-                                                    Arrays.asList("This", "is", "a", "message", "from", "the", "server", "socket")
-                                            ));
-
+//                Thread writerThread = new Thread(
+//                                            new WriterThread(
+//                                                    socket.getOutputStream(),
+//                                                    "SERVER",
+//                                                    Arrays.asList("This", "is", "a", "message", "from", "the", "server", "socket")
+//                                            ));
+//
                 Thread readerThread = new Thread(
                                             new ReaderThread(
                                                     socket.getInputStream(),
                                                     "SERVER"
                                             ));
-
-                writerThread.start();
+//
+//                writerThread.start();
                 readerThread.start();
+
+
+
 //                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 //
 //                out.println("Socket: Hello world!");

@@ -2,7 +2,9 @@ package com.java.examples.server;
 
 import com.java.examples.listener.Listener;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -27,27 +29,50 @@ public class MessagesSenderWorker implements Runnable, Listener<String>{
     public void run() {
         try {
             System.out.println("Simulating ON_CONNECTION event");
-            clientConnectionListener.onEvent(new ClientConnection("testId", ConnectionEvent.ON_CONNECT));
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
+            clientConnectionListener.onEvent(
+                                        new ClientConnection(
+                                                String.format("%s:%d",
+                                                        socket.getInetAddress().getHostAddress(),
+                                                        socket.getPort()),
+                                                ConnectionEvent.ON_CONNECT));
 
             while (active){
                 String message = messages.poll(7L, TimeUnit.SECONDS);
                 if (message != null){
                     System.out.println("Sendig message by socket: " + message);
-                    clientConnectionListener.onEvent(new ClientConnection("testId", ConnectionEvent.IS_ALIVE));
-                    socket.getOutputStream().write(message.getBytes());
-                    socket.getOutputStream().flush();
+                    printWriter.println(message);
+                    printWriter.flush();
+                    clientConnectionListener.onEvent(new ClientConnection(
+                                                            String.format("%s:%d",
+                                                                    socket.getInetAddress().getHostAddress(),
+                                                                    socket.getPort()),
+                                                            ConnectionEvent.IS_ALIVE));
+
                 }else{
                     active = false;
                     System.out.println("Simulating ON_CLOSE event");
-                    clientConnectionListener.onEvent(new ClientConnection("testId", ConnectionEvent.ON_CLOSE));
+                    clientConnectionListener.onEvent(new ClientConnection(
+                                                            String.format("%s:%d",
+                                                                    socket.getInetAddress().getHostAddress(),
+                                                                    socket.getPort()),
+                                                            ConnectionEvent.ON_CLOSE));
                 }
             }
         }catch (InterruptedException e){
             System.out.println("Something went bad while polling messages from thread: " + Thread.currentThread().getName() + " queue: " + e.getMessage());
-            clientConnectionListener.onEvent(new ClientConnection("testId", ConnectionEvent.ON_CLOSE));
+            clientConnectionListener.onEvent(new ClientConnection(
+                                                    String.format("%s:%d",
+                                                            socket.getInetAddress().getHostAddress(),
+                                                            socket.getPort()),
+                                                    ConnectionEvent.ON_CLOSE));
         } catch (IOException e) {
             System.out.println("Couldn't write to socket output stream thread: " + Thread.currentThread().getName());
-            clientConnectionListener.onEvent(new ClientConnection("testId", ConnectionEvent.ON_CLOSE));
+            clientConnectionListener.onEvent(new ClientConnection(
+                                                    String.format("%s:%d",
+                                                            socket.getInetAddress().getHostAddress(),
+                                                            socket.getPort()),
+                                                    ConnectionEvent.ON_CLOSE));
         }
     }
 
